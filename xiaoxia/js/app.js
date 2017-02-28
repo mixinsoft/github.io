@@ -4,22 +4,17 @@ $(function(){
 });
 
 function bindEvent(){
-	var slideout = new Slideout({
-		'panel': $('.main')[0],
-		'menu': $('.menu')[0],
-		'padding': $('.menu').width(),
-		'touch': false
-	});
-	
-	slideout.toggle();
 	$('.toggle-menu').click(function() {
-		slideout.toggle();
+		toogleMenu();
 	});
 
 	$("ul.menu-section-list > li").click(function(){
-		var _url = $(this).find("a").attr("data");
-		$("#iframe").attr("src",_url);
+		openIframe.apply(this);
 	});
+	
+	toogleMenu();
+	var _firstBookmarks = document.querySelector('.menu > section.menu-section > ul.menu-section-list > li');
+	!!_firstBookmarks && openIframe.apply(_firstBookmarks);
 };
 
 function judgmentTime(){
@@ -34,4 +29,15 @@ function judgmentTime(){
 		welcomeWord = "Night";
 	}
 	$(".welcome-word").html(welcomeWord);
+}
+
+function openIframe(){
+	var _url = $(this).find("a").attr("data");
+	$("#iframe").attr("src",_url);
+}
+
+function toogleMenu(){
+	var _leftSize = parseInt($('.main').css('left')),
+		_expendWidth = !_leftSize ? $('.menu').width() : 0;
+	$(".main").animate({left: _expendWidth},'fast');
 }
